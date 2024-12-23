@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herba Veda Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        body {
+            background-color: #1e1e2f;
+            color: #ddd;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            padding-top: 20px;
+            overflow-y: auto;
+        }
+
+        .sidebar h3 {
+            color: #fff;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .sidebar a {
+            padding: 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #ddd;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        .sidebar .active {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        /* Header */
+        .header {
+            background-color: #2c2c3e;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 250px;
+            width: calc(100% - 250px);
+            z-index: 1;
+        }
+
+        .header .search-bar {
+            width: 300px;
+            position: relative;
+        }
+
+        .header .search-bar input {
+            width: 100%;
+            padding: 8px 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #1e1e2f;
+            color: #ddd;
+            padding-left: 30px;
+        }
+
+        .header .search-bar i {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            color: #ddd;
+        }
+
+        .header .profile-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .header .profile-actions .profile-icon {
+            margin-right: 20px;
+            color: #ddd;
+            font-size: 18px;
+        }
+
+        .header .profile-actions .logout-btn {
+            color: #ddd;
+            background-color: #d9534f;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        /* Main content */
+        .main-content {
+            margin-left: 250px;
+            padding: 80px 20px 20px; /* Adjusted padding to fit header */
+        }
+
+        /* Top cards */
+        .card {
+            background-color: #2c2c3e;
+            border: none;
+            color: #ddd;
+            margin: 10px 0;
+        }
+
+        .card .card-body h5 {
+            font-size: 24px;
+            color: #ddd;
+        }
+
+        /* Chart */
+        .chart-container {
+            padding: 20px;
+            background-color: #2c2c3e;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        /* Filter */
+        .filter-section {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .filter-section input {
+            background-color: #2c2c3e;
+            border: none;
+            color: #ddd;
+            padding: 8px;
+            margin: 0 5px;
+        }
+
+        .filter-section button {
+            background-color: #d9534f;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            margin-left: 10px;
+        }
+
+        /* Download button */
+        .download-btn {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            margin-top: 20px;
+        }
+        #card {
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            background-color: #111;
+        }
+        .card-header {
+            background-color: #007bff;
+            color: rgb(249, 246, 246);
+            font-weight: bold;
+            font-size: 1.2rem;
+         
+        }
+        .card-body {
+            padding: 1rem;
+         
+         
+          
+        }
+        .list-group-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1rem;
+            padding: 10px 15px;
+        }
+        .list-group-item span {
+            font-weight: bold;
+        }
+        #rows{
+            margin-left: 200px;
+        }
+        #card{
+            color: black;
+        }
+        .list-group{
+            color: #111;
+        }
+        #ledgerbook{
+          
+            margin-left: 466px;
+    margin-top: -85px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h3>Herba Veda</h3>
+        <a href="/admin/Dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="/admin/sales/report"><i class="fas fa-chart-line"></i> Sales Report</a>
+        <a href="/admin/orders"><i class="fas fa-box"></i> Orders</a>
+        <a href="/admin/products"><i class="fas fa-boxes"></i> Products</a>
+        <a href="/admin/Users"><i class="fas fa-users"></i> Users</a>
+        <a href="/admin/categories"><i class="fas fa-tags"></i> Categories</a>
+        <a href="/admin/brands"><i class="fas fa-tags"></i> Brands</a>
+        <a href="/admin/couponList"><i class="fas fa-percentage"></i> Coupons</a>
+        <a href="#"><i class="fas fa-images"></i> Banners</a>
+        <a href="#"><i class="fas fa-money-bill"></i> Payments</a>
+        <a href="/admin/offers"><i class="fas fa-gift"></i> Offers</a>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="profile-actions">
+            <i class="fas fa-user-circle profile-icon"></i>
+            <a href="/admin/login">
+                <button class="logout-btn">Logout</button>
+            </a>
+        </div>
+    </div>
+    <!-- Main Content -->
+<div class="main-content">
+    <div class="row">
+        <!-- Sales data -->
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 id="totalSalesMonth">₹ 0.00</h5>
+                    <p>This Month's Sales</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter -->
+    <div class="filter-section">
+        <select id="salesFilter" class="form-control">
+            <option value="daily">Daily</option>
+            <option value="monthly">Monthly</option>
+        </select>
+        <button id="filterBtn" class="btn btn-primary">Filter</button>
+    </div>
+
+    <!-- Chart -->
+    <div class="chart-container">
+        <canvas id="salesChart"></canvas>
+    </div>
+  
+    <!-- Download Button -->
+    <button class="download-btn" id="downloadReportBtn"><i class="fas fa-download"></i> Download Report</button>
+</div>
+
+<!-- Generate Ledger Book (PDF) -->
+<div class="row mt-4">
+    <div class="col-md-12" id="ledgerbook">
+        <a href="/api/sales/admin/generate-ledger-pdf" class="btn btn-secondary" target="_blank">Generate Ledger Book (PDF)</a>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row" id="rows">
+        <!-- Top Selling Products -->
+        <div class="col-md-4">
+            <div class="card ">
+                <div class="card-header ">
+                    Top Selling Products
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <% topSellingProducts.forEach(function(product) { %>
+                            <li class="list-group-item">
+                                <span><%= product.product %></span>
+                                <span><%= product.totalSold %> sold</span>
+                            </li>
+                        <% }); %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Selling Categories -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    Top Selling Categories
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <% topSellingCategories.forEach(function(category) { %>
+                            <li class="list-group-item">
+                                <span><%= category.category %></span>
+                                <span><%= category.totalSold %> sold</span>
+                            </li>
+                        <% }); %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Selling Brands -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    Top Selling Brands
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <% topSellingBrands.forEach(function(brand) { %>
+                            <li class="list-group-item">
+                                <span><%= brand.brand %></span>
+                                <span><%= brand.totalSold %> sold</span>
+                            </li>
+                        <% }); %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<script>
+    const salesChartElement = document.getElementById('salesChart').getContext('2d');
+    let salesChart;
+
+    // Fetch sales data for the chart and month sales
+    const fetchSalesData = async (filter) => {
+        try {
+            const response = await fetch(`/admin/sales-data?filter=${filter}`);
+            const data = await response.json();
+            if (data.success) {
+                if (filter === 'monthly') {
+                    updateMonthlySales(data.data);
+                }
+                updateChart(data.data);
+            } else {
+                alert('Error fetching sales data');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error fetching sales data');
+        }
+    };
+
+    // Update the total sales for this month
+    const updateMonthlySales = (data) => {
+        const totalSalesMonth = data.reduce((sum, item) => sum + item.totalSales, 0);
+        document.getElementById('totalSalesMonth').textContent = `₹${totalSalesMonth.toFixed(2)}`;
+    };
+
+    // Update the chart with the new sales data
+    const updateChart = (data) => {
+        const labels = data.map(item => {
+            if (item._id.day) {
+                return `${item._id.day}/${item._id.month}/${item._id.year}`;
+            } else {
+                return `${item._id.month}/${item._id.year}`;
+            }
+        });
+
+        const salesData = data.map(item => item.totalSales);
+
+        if (salesChart) {
+            salesChart.destroy();
+        }
+
+        salesChart = new Chart(salesChartElement, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Sales',
+                    data: salesData,
+                    backgroundColor: 'rgba(0, 123, 255, 0.7)',
+                    borderColor: 'rgba(0, 123, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    };
+
+    // Handle filter button click
+    document.getElementById('filterBtn').addEventListener('click', () => {
+        const filter = document.getElementById('salesFilter').value;
+        fetchSalesData(filter);
+    });
+
+    // Fetch sales data for monthly sales on page load
+    fetchSalesData('monthly');
+
+    // Download report button
+    document.getElementById('downloadReportBtn').addEventListener('click', () => {
+        window.location.href = '/admin/sales/report';
+    });
+
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,218 @@
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+.hero {
+    padding: 100px 0;
+    background: url('hero-image.jpg') no-repeat center center;
+    background-size: cover;
+}
+
+.categories, .featured-products {
+    background-color: #f8f9fa;
+}
+
+.card {
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+footer {
+    background-color: #343a40;
+    color: white;
+}
+.featured-products {
+    background-color: #f8f9fa; /* Light gray background */
+    padding: 60px 0;
+}
+
+.featured-products h2 {
+    font-size: 2.5rem;
+    color: #2c3e50; /* Dark text color */
+    margin-bottom: 1rem;
+}
+
+.product-card {
+    border: none; /* Remove default card border */
+    border-radius: 8px; /* Rounded corners for the card */
+    overflow: hidden; /* Prevent image overflow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effects */
+}
+
+.product-card:hover {
+    transform: scale(1.05); /* Slightly enlarge on hover */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Shadow effect on hover */
+}
+
+.product-image {
+    height: 250px;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+}
+
+.product-card:hover .product-image {
+    opacity: 0.9; /* Slight transparency on hover */
+}
+
+.card-title {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+.card-text {
+    color: #777; /* Muted text for price */
+}
+
+.btn-primary {
+    background-color: #007bff; /* Bootstrap primary color */
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Darker shade for hover */
+    border-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+    .product-image {
+        height: 200px;
+    }
+}
+
+
+footer {
+    background-color: #d6e3d4; /* Light gray background */
+    color: #343a40; /* Dark text color */
+}
+
+footer h5 {
+    font-size: 1.25rem;
+    margin-bottom: 15px;
+    color: #ffffff; /* Bootstrap primary color */
+}
+
+footer p {
+    font-size: 0.9rem;
+}
+footer {
+    color: white; /* Applies to all text within the footer */
+}
+
+footer a {
+    color: white; /* Ensures links are white */
+}
+
+footer hr {
+    border-color: white; /* Sets the color of the horizontal rule */
+}
+
+footer .list-unstyled {
+    padding: 0;
+    list-style: none; /* Remove default list style */
+}
+
+footer .list-unstyled li {
+    margin-bottom: 10px; /* Space between links */
+}
+
+footer .list-unstyled a {
+    text-decoration: none; /* Remove underline */
+    color: #343a40; /* Dark text color */
+}
+
+footer .list-unstyled a:hover {
+    color: #007bff; /* Change color on hover */
+}
+
+footer .input-group {
+    max-width: 400px;
+    margin: 0 auto; /* Center the input group */
+}
+
+footer .btn-primary {
+    background-color: #007bff; /* Bootstrap primary color */
+    border-color: #007bff;
+}
+
+footer .btn-primary:hover {
+    background-color: #0056b3; /* Darker shade for hover */
+    border-color: #0056b3;
+}
+
+footer .fab {
+    font-size: 1.5rem; /* Larger icon size */
+    transition: color 0.3s;
+}
+
+footer .fab:hover {
+    color: #007bff; /* Change icon color on hover */
+}
+/* styles.css */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background: #333;
+    color: white;
+    padding: 1rem;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-links li {
+    display: inline;
+}
+
+.menu-icon {
+    display: none; /* Hide the menu icon by default */
+    font-size: 24px;
+    cursor: pointer;
+}
+.imagelogo{
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    margin-right: 4px;
+}
+.navbar-brand{
+    font-weight: 800;
+    color: #275110;
+}
+
+/* Media query for responsive design */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* Hide the nav links */
+        flex-direction: column; /* Stack links vertically */
+        position: absolute;
+        background: #333;
+        top: 60px; /* Position it below the header */
+        left: 0;
+        width: 100%; /* Full width */
+    }
+
+    .nav-links.active {
+        display: flex; /* Show links when active */
+    }
+
+    .menu-icon {
+        display: block; /* Show the menu icon on small screens */
+    }
+}
+

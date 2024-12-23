@@ -1,0 +1,157 @@
+
+footer {
+    background-color: #d6e3d4; /* Light gray background */
+    color: #343a40; /* Dark text color */
+}
+
+footer h5 {
+    font-size: 1.25rem;
+    margin-bottom: 15px;
+    color: #007bff; /* Bootstrap primary color */
+}
+footer p {
+    font-size: 0.9rem;
+}
+footer {
+    color: white; /* Applies to all text within the footer */
+}
+
+footer a {
+    color: white; /* Ensures links are white */
+}
+
+footer hr {
+    border-color: white; /* Sets the color of the horizontal rule */
+}
+footer p {
+    font-size: 0.9rem;
+}
+
+footer .list-unstyled {
+    padding: 0;
+    list-style: none; /* Remove default list style */
+}
+
+footer .list-unstyled li {
+    margin-bottom: 10px; /* Space between links */
+}
+
+footer .list-unstyled a {
+    text-decoration: none; /* Remove underline */
+    color: #343a40; /* Dark text color */
+}
+
+footer .list-unstyled a:hover {
+    color: #007bff; /* Change color on hover */
+}
+
+footer .input-group {
+    max-width: 400px;
+    margin: 0 auto; /* Center the input group */
+}
+
+footer .btn-primary {
+    background-color: #007bff; /* Bootstrap primary color */
+    border-color: #007bff;
+}
+
+footer .btn-primary:hover {
+    background-color: #0056b3; /* Darker shade for hover */
+    border-color: #0056b3;
+}
+
+footer .fab {
+    font-size: 1.5rem; /* Larger icon size */
+    transition: color 0.3s;
+}
+
+footer .fab:hover {
+    color: #007bff; /* Change icon color on hover */
+}
+/* Custom CSS for Product Card */
+.card {
+    border: none; /* Optional: Remove border */
+}
+
+.card-img-top {
+    width: 100%; /* Make the image responsive */
+    height: 200px; /* Set a fixed height */
+    object-fit: cover; /* Maintain aspect ratio while cropping */
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column; /* Align items vertically */
+    justify-content: space-between; /* Space between elements */
+}
+
+/* Optional: Style adjustments for footer */
+footer {
+    background-color: #3B8B57;
+    color: white;
+}
+.search-sort-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+#searchInput {
+    padding: 10px;
+    width: 300px;
+}
+
+#sortOptions {
+    padding: 10px;
+}
+/* In your CSS file (e.g., public/style.css) */
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; /* Space between products */
+}
+
+.product {
+    border: 1px solid #ccc;
+    padding: 16px;
+    border-radius: 8px;
+    width: calc(33.333% - 16px); /* Three products per row with some spacing */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+    .product {
+        width: calc(50% - 16px); /* Two products per row on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .product {
+        width: 100%; /* One product per row on extra small screens */
+    }
+}
+/* Custom styling for the sort dropdown */
+.form-label {
+    font-size: 1rem;
+    color: #5a5a5a;
+}
+
+.form-select {
+    font-size: 0.95rem;
+    border-radius: 5px;
+    padding: 8px;
+}
+
+form .row {
+    margin-bottom: 15px;
+}
+.imagelogo{
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    margin-right: 4px;
+}
+.navbar-brand{
+    font-weight: 800;
+    color: #275110;
+}

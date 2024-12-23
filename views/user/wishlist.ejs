@@ -1,0 +1,200 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Wishlist</title>
+  <link rel="stylesheet" href="">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
+</head>
+<style>
+  .imagelogo{
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    margin-right: 4px;
+}
+.navbar-brand{
+    font-weight: 800;
+    color: #275110;
+}
+.wishlist-item {
+    transition: transform 0.2s ease-in-out;
+  }
+  .wishlist-item:hover {
+    transform: translateY(-10px);
+  }
+  .wishlist-image {
+    max-height: 250px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  .wishlist-image:hover {
+    transform: scale(1.05);
+  }
+  .zoomed-image {
+    display: none;
+    /* Add further styling for zoomed image if necessary */
+  }
+</style>
+<body>
+   
+      <!-- Main Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #B2D8B2;">
+        <img src="/images/download.png" alt="" class="imagelogo">
+        <a class="navbar-brand" href="/home">Herba-Veda</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <form class="form-inline mx-auto">
+                <input class="form-control mr-2" type="search" placeholder="Search" aria-label style="width: 467px">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/wishlist" title="Wishlist"><i class="fas fa-heart"></i> Wishlist</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cart" title="Cart"><i class="fas fa-shopping-cart"></i> Cart</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user"></i> Profile
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="profileDropdown"   style=" background-color: papayawhip">
+                        <a class="dropdown-item" href="/user/profile">Profile</a>
+                        <a class="dropdown-item" href="/api/user-orders">My Orders</a>
+                        <a class="dropdown-item" href="/api/wallet">wallet</a>
+                        <a class="dropdown-item" href="/logout">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Sub-header with navigation links -->
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color:  #FFFDD0;" >
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">OFFERS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/home">HOME</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/products">SHOP</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CATEGORIES</a>
+                    <div class="dropdown-menu" aria-labelledby="categoriesDropdown"  style=" background-color: papayawhip">
+                        <% categories.forEach(category => { %>
+                            <a class="dropdown-item" href="/category/<%= category.slug %>"><%= category.name %></a>
+                        <% }); %>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact">BRANDS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about">CONTACT</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/">ABOUT US</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container my-5">
+      <% if (typeof message !== 'undefined' && message) { %>
+        <div class="alert alert-info text-center" id="wishlistMessage"><%= message %></div>
+      <% } %>
+    
+      <h1 class="text-center mb-4">Your Wishlist</h1>
+    
+      <div class="row justify-content-center">
+        <% if (wishlist.length > 0) { %>
+          <% wishlist.forEach(function(product) { %>
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div class="card h-100 shadow-sm border-0 wishlist-item">
+                <div class="position-relative">
+                  <img src="/uploads/<%= product.images[0] %>" alt="<%= product.name %>"
+                       class="card-img-top wishlist-image rounded-top" 
+                       onerror="this.onerror=null; this.src='/path/to/default/image.jpg'">
+                </div>
+                <div class="card-body text-center">
+                  <h5 class="card-title"><%= product.name %></h5>
+                  <p class="card-text text-primary font-weight-bold">Price: ₹<%= product.price %></p>
+                </div>
+                <div class="card-footer text-center bg-light border-0">
+                  <!-- Add to Cart Form -->
+                  <form action="/cart/add" method="POST" class="d-flex align-items-center justify-content-center">
+                    <input type="hidden" name="productId" value="<%= product._id %>">
+                    <input type="number" name="quantity" min="1" max="<%= product.stock %>" value="1" required 
+                           class="form-control form-control-sm w-25 mr-2" style="text-align: center;">
+                    <button type="submit" class="btn btn-primary btn-sm">Add to Cart</button>
+                  </form>
+                  <!-- Remove from Wishlist Button -->
+                  <button class="btn btn-outline-danger btn-sm mt-3" onclick="removeFromWishlist('<%= product._id %>')">Remove</button>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        <% } else { %>
+          <p class="text-center w-100">Your wishlist is empty.</p>
+        <% } %>
+      </div>
+    </div>
+    <script>
+      function addToCart(productId) {
+        fetch('/cart/add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({ productId })
+        })
+        .then(response => response.json())
+        .then(result => {
+          const messageDiv = document.getElementById('wishlistMessage');
+          messageDiv.style.display = 'block';
+          messageDiv.textContent = result.message;
+          messageDiv.classList.remove('alert-danger', 'alert-info');
+          messageDiv.classList.add(result.success ? 'alert-success' : 'alert-danger');
+    
+          // Hide the message after 3 seconds
+          setTimeout(() => {
+            messageDiv.style.display = 'none';
+          }, 3000);
+        })
+        .catch(error => {
+          console.error('Error adding to cart:', error);
+        });
+      }
+     // Function to remove item from wishlist
+     function removeFromWishlist(productId) {
+      fetch(`/wishlist/remove/${productId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productId })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('Product removed from wishlist');
+          location.reload(); // Reload the page to update the wishlist
+        }
+      });
+    }
+    </script>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+</body>
+</html>

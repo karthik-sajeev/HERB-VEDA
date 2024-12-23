@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Brand</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome for Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #1e1e2f;
+      color: #f7f5f5;
+      font-family: Arial, sans-serif;
+      margin: 0;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #111;
+      padding-top: 30px;
+      overflow-y: auto;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar h3 {
+      color: #ffffff;
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .sidebar a {
+      padding: 15px 20px;
+      text-decoration: none;
+      font-size: 18px;
+      color: #ddd;
+      display: block;
+      transition: 0.3s;
+    }
+
+    .sidebar a:hover {
+      background-color: #575757;
+      color: #fff;
+    }
+
+    .sidebar .active {
+      background-color: #007bff;
+      color: #ffffff;
+    }
+
+    /* Header */
+    .header {
+      background-color: #2c2c3e;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: fixed;
+      top: 0;
+      left: 250px;
+      width: calc(100% - 250px);
+      z-index: 1;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .header .search-bar {
+      width: 300px;
+    }
+
+    .header .search-bar input {
+      width: 100%;
+      padding: 8px 35px;
+      border: none;
+      border-radius: 4px;
+      background-color: #1e1e2f;
+      color: #ddd;
+      font-size: 16px;
+    }
+
+    .header .profile-actions {
+      display: flex;
+      align-items: center;
+    }
+
+    .header .profile-actions .profile-icon {
+      font-size: 24px;
+      margin-right: 20px;
+      color: #ddd;
+    }
+
+    .header .profile-actions .logout-btn {
+      color: #fff;
+      background-color: #d9534f;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+
+    .header .profile-actions .logout-btn:hover {
+      background-color: #c9302c;
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-left: 250px;
+      padding-top: 100px;
+      padding-right: 30px;
+    }
+
+    /* Form styling */
+    .form-container {
+      background-color: #2c2c3e;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      margin-left: 39px;
+    }
+
+    .form-container label {
+      font-size: 16px;
+      color: #ddd;
+    }
+
+    .form-container input,
+    .form-container textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #444;
+      background-color: #1e1e2f;
+      color: #ddd;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+
+    .form-container textarea {
+      resize: vertical;
+      height: 150px;
+    }
+
+    .form-container button {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .form-container button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h3>Herba Veda</h3>
+    <a href="/admin/dashboard" class="<%= activePage === 'dashboard' ? 'active' : '' %>"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+    <a href="/admin/sales/report" class="<%= activePage === 'salesReport' ? 'active' : '' %>"><i class="fas fa-chart-line"></i> Sales Report</a>
+    <a href="/admin/orders" class="<%= activePage === 'orders' ? 'active' : '' %>"><i class="fas fa-box"></i> Orders</a>
+    <a href="/admin/products" class="<%= activePage === 'products' ? 'active' : '' %>"><i class="fas fa-boxes"></i> Products</a>
+    <a href="/admin/users" class="<%= activePage === 'users' ? 'active' : '' %>"><i class="fas fa-users"></i> Users</a>
+    <a href="/admin/categories" class="<%= activePage === 'categories' ? 'active' : '' %>"><i class="fas fa-tags"></i> Categories</a>
+    <a href="/admin/brands" class="<%= activePage === 'brands' ? 'active' : '' %>"><i class="fas fa-tags"></i> Brands</a>
+    <a href="/admin/coupons" class="<%= activePage === 'coupons' ? 'active' : '' %>"><i class="fas fa-percentage"></i> Coupons</a>
+    <a href="#" class="<%= activePage === 'banners' ? 'active' : '' %>"><i class="fas fa-images"></i> Banners</a>
+    <a href="#" class="<%= activePage === 'payments' ? 'active' : '' %>"><i class="fas fa-money-bill"></i> Payments</a>
+    <a href="/admin/offers" class="<%= activePage === 'offers' ? 'active' : '' %>"><i class="fas fa-gift"></i> Offers</a>
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="search-bar">
+      <input type="text" placeholder="Search...">
+    </div>
+    <div class="profile-actions">
+      <i class="fas fa-user-circle profile-icon"></i>
+      <a href="/admin/login">
+        <button class="logout-btn">Logout</button>
+      </a>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="form-container">
+      <h2>Edit Brand</h2>
+      <form action="/admin/brands/edit/<%= brand._id %>" method="POST">
+        <div class="mb-3">
+          <label for="name" class="form-label">Brand Name</label>
+          <input type="text" class="form-control" id="name" name="name" value="<%= brand.name %>" required>
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea class="form-control" id="description" name="description" required><%= brand.description %></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Brand</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

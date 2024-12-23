@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .signup-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5 signup-container">
+        <h1 class="text-center">Sign Up</h1>
+
+        <% if (errorMessages && errorMessages.length > 0) { %> <!-- Changed 'errors' to 'errorMessages' -->
+            <div style="color: red;">
+                <ul>
+                    <% errorMessages.forEach(function(error) { %> <!-- Use the correct variable -->
+                        <li><%= error %></li>
+                    <% }); %>
+                </ul>
+            </div>
+        <% } %>
+
+        <!-- Signup Form -->
+        <form action="/user/signup" method="POST">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" name="name" value="<%= name %>" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" name="email" value="<%= email %>" required>
+            </div>
+            <div class="form-group">
+                <label for="mobile">Mobile:</label>
+                <input type="tel" class="form-control" name="mobile" value="<%= mobile %>" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" class="form-control" name="confirmPassword" required>
+            </div>
+            <div class="form-group">
+                <label for="referralCode">referalcode:</label>
+                <input type="text" name="referralCode" class="form-control" placeholder="Referral Code (optional)">
+            </div>
+         
+            <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+        </form>
+
+        <p class="text-center mt-3">Already have an account? <a href="/user/login">Login</a></p>
+        <a href="/auth/google" class="btn btn-danger btn-block mt-2">Sign up with Google</a>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

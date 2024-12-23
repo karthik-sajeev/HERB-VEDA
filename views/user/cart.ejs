@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+    }
+    
+    /* Navbar */
+    .navbar {
+      padding: 0.75rem 1.5rem;
+    }
+
+    /* Cart Page */
+    .container {
+      max-width: 800px;
+      margin-top: 40px;
+    }
+
+    h2 {
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .cart-item {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      background-color: #fff;
+    }
+
+    .cart-item h3 {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .cart-item p {
+      margin: 5px 0;
+    }
+
+    /* Total Amount */
+    .total-amount {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #28a745;
+    }
+
+    /* Button Styles */
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+    }
+
+    .btn-primary {
+      background-color: #28a745;
+      border: none;
+    }
+
+    .btn-secondary {
+      background-color: #6c757d;
+      border: none;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 576px) {
+      .form-inline .form-control {
+        width: 60px;
+      }
+    }
+    .errormsg{
+      width: 400px;
+    border-radius: 5px;
+    margin-left: 205px;
+    color: red;
+    }
+    .imagelogo{
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    margin-right: 4px;
+}
+.navbar-brand{
+    font-weight: 800;
+}
+footer {
+    background-color: #ecf0f1;
+    color: #7f8c8d;
+}
+
+footer {
+    background-color: #d6e3d4; /* Light gray background */
+    color: #343a40; /* Dark text color */
+}
+
+footer h5 {
+    font-size: 1.25rem;
+    margin-bottom: 15px;
+    color: #ffffff; /* Bootstrap primary color */
+}
+
+footer p {
+    font-size: 0.9rem;
+}
+footer {
+    color: white; /* Applies to all text within the footer */
+}
+
+footer a {
+    color: white; /* Ensures links are white */
+}
+
+footer hr {
+    border-color: white; /* Sets the color of the horizontal rule */
+}
+
+footer .list-unstyled {
+    padding: 0;
+    list-style: none; /* Remove default list style */
+}
+
+footer .list-unstyled li {
+    margin-bottom: 10px; /* Space between links */
+}
+
+footer .list-unstyled a {
+    text-decoration: none; /* Remove underline */
+    color: #343a40; /* Dark text color */
+}
+
+footer .list-unstyled a:hover {
+    color: #007bff; /* Change color on hover */
+}
+
+footer .input-group {
+    max-width: 400px;
+    margin: 0 auto; /* Center the input group */
+}
+
+footer .btn-primary {
+    background-color: #007bff; /* Bootstrap primary color */
+    border-color: #007bff;
+}
+
+footer .btn-primary:hover {
+    background-color: #0056b3; /* Darker shade for hover */
+    border-color: #0056b3;
+}
+
+footer .fab {
+    font-size: 1.5rem; /* Larger icon size */
+    transition: color 0.3s;
+}
+
+footer .fab:hover {
+    color: #007bff; /* Change icon color on hover */
+}
+#coupon{
+  margin-top: -3px;
+    height: 46px;
+    padding-top: 1px;
+
+}
+#apply-coupon{
+  margin-top: -4px;
+    height: 46px;
+    padding-top: 3px;
+}
+  </style>
+</head>
+<body>
+
+<!-- Main Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #B2D8B2;">
+  <img src="/images/download.png" alt="" class="imagelogo">
+  <a class="navbar-brand" href="/home">Herba-Veda</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+      <form class="form-inline mx-auto">
+          <input class="form-control mr-2" type="search" placeholder="Search" style="width: 467px">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+      <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+              <a class="nav-link" href="/wishlist" title="Wishlist"><i class="fas fa-heart"></i> Wishlist</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="/cart" title="Cart"><i class="fas fa-shopping-cart"></i> Cart</a>
+          </li>
+          <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-user"></i> Profile
+              </a>
+              <div class="dropdown-menu" aria-labelledby="profileDropdown" style="background-color: papayawhip;">
+                  <a class="dropdown-item" href="/user/profile">Profile</a>
+                  <a class="dropdown-item" href="/api/user-orders">My Orders</a>
+                  <a class="dropdown-item" href="/api/wallet">wallet</a>
+                 
+                  <a class="dropdown-item" href="/logout">Logout</a>
+              </div>
+          </li>
+      </ul>
+  </div>
+</nav>
+  
+<!-- Sub-header with navigation links -->
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #FFFDD0;">
+  <div class="collapse navbar-collapse">
+      <ul class="navbar-nav mx-auto">
+          <li class="nav-item"><a class="nav-link" href="/">OFFERS</a></li>
+          <li class="nav-item"><a class="nav-link" href="/home">HOME</a></li>
+          <li class="nav-item"><a class="nav-link" href="/user/products">SHOP</a></li>
+          <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CATEGORIES</a>
+              <div class="dropdown-menu" aria-labelledby="categoriesDropdown" style="background-color: papayawhip;">
+                  <% categories.forEach(category => { %>
+                      <a class="dropdown-item" href="/category/<%= category.slug %>"><%= category.name %></a>
+                  <% }); %>
+              </div>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="/contact">BRANDS</a></li>
+          <li class="nav-item"><a class="nav-link" href="/about">CONTACT</a></li>
+          <li class="nav-item"><a class="nav-link" href="/">ABOUT US</a></li>
+      </ul>
+  </div>
+</nav>
+<div class="container my-5">
+  <h2 class="text-center mb-4">Your Cart</h2>
+
+  <!-- Display Flash Messages -->
+  <% if (errorMessage) { %>
+    <div class="alert alert-danger text-center" role="alert">
+      <%= errorMessage %>
+    </div>
+  <% } %>
+  <% if (successMessage) { %>
+    <div class="alert alert-success text-center" role="alert">
+      <%= successMessage %>
+    </div>
+  <% } %>
+
+
+
+  <!-- Check if Cart is Empty -->
+  <% if (cartItems.length === 0) { %>
+    <div class="alert alert-warning text-center" role="alert">
+      Your cart is empty. Start adding items to see them here!
+    </div>
+  <% } else { %>
+    <!-- Coupon Section -->
+    <div class="coupon-section my-4 p-3 border rounded bg-light">
+      <h4>Apply Coupon</h4>
+      <% if (couponApplied) { %>
+        <p class="mb-2">Coupon Applied: <strong><%= couponApplied.code %></strong> (<%= couponApplied.discount %>% Discount)</p>
+        <form action="/cart/remove-coupon" method="POST">
+          <button type="submit" class="btn btn-danger btn-sm">Remove Coupon</button>
+        </form>
+      <% } else { %>
+        <form action="/cart/apply-coupon" method="POST" class="d-flex">
+          <input type="text" name="couponCode" class="form-control mr-2" placeholder="Enter Coupon Code" required>
+          <button type="submit" class="btn btn-success btn-sm" id="apply-coupon">Apply Coupon</button>
+        </form>
+      <% } %>
+    </div>
+
+    <!-- Cart Items -->
+   
+  <!-- Cart Items -->
+<!-- Cart Items -->
+<div class="list-group mb-4">
+  <% cartItems.forEach(item => { %>
+    <div class="cart-item list-group-item d-flex justify-content-between align-items-center">
+      <div style="width: 288px">
+        <h5 class="mb-1"><%= item.name %></h5>
+        <% if (item.offerApplied) { %>
+          <p class="mb-1 text-muted">
+            Original Price: ₹<%= item.originalPrice.toFixed(2) %>, 
+            <span class="text-danger">Discounted Price: ₹<%= item.discountedPrice.toFixed(2) %></span>
+          </p>
+        <% } else { %>
+          <p class="mb-1">Price: ₹<%= (item.discountedPrice || item.price).toFixed(2) %></p>
+        <% } %>
+      </div>
+      <div class="d-flex align-items-center">
+        <form class="update-cart-form">
+          <input type="hidden" name="productId" value="<%= item.productId %>">
+          <input type="number" name="quantity" min="1" value="<%= item.quantity || 1 %>" required class="form-control mr-2 cart-quantity" style="width: 70px;">
+        </form>
+        <form action="/cart/remove" method="POST">
+          <input type="hidden" name="productId" value="<%= item.productId %>">
+          <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+        </form>
+      </div>
+      <p class="mb-0">Total: ₹<%= ((item.totalPrice || 0)).toFixed(2) %></p>
+    </div>
+  <% }) %>
+</div>
+
+  <!-- Delivery Charge Section -->
+
+<!-- Cart Totals -->
+<div class="text-right">
+  <h5 class="text-muted">
+    Delivery Charge: ₹<%= deliveryCharge.toFixed(2) %>
+  </h5>
+
+  <h5 class="font-weight-bold">
+  
+    Total Amount(Include deliveryCharge): ₹<%= totalAmount.toFixed(2) %>
+  </h5>
+
+  <% if (couponApplied) { %>
+    <h5 class="text-muted">
+      Discount Applied: ₹<%= discountAmount %>
+    </h5>
+    <% } %>
+
+
+  <!-- Final Total with Delivery Charge -->
+  <h4 class="font-weight-bold text-success">
+    finalAmount : ₹<%= finalAmount.toFixed(2) %>
+  </h4>
+</div>
+
+  <% } %>
+
+  <!-- Action Buttons -->
+  <div class="mt-4 d-flex justify-content-between">
+    <a href="/user/products" class="btn btn-secondary btn-lg">Continue Shopping</a>
+    <% if (cartItems.length > 0) { %>
+      <form action="/cart/proceed-to-checkout" method="POST">
+        <input type="hidden" name="totalAmount" value="<%= totalAmount %>">
+        <input type="hidden" name="finalAmount" value="<%= finalAmount %>">
+        <button type="submit" class="btn btn-primary btn-lg">Proceed to Checkout</button>
+      </form>
+    <% } %>
+  </div>
+</div>
+
+<!-- View Coupons Button -->
+<div class="text-center my-4">
+  <button id="show-coupons-btn" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#couponList" aria-expanded="false" aria-controls="couponList">
+      View Available Coupons
+  </button>
+</div>
+
+<!-- Available Coupons Section -->
+<div class="collapse" id="couponList">
+  <div class="card">
+      <div class="card-header bg-info text-white text-center">
+          <h5>Available Coupons</h5>
+      </div>
+      <div class="card-body">
+          <% if (availableCoupons && availableCoupons.length > 0) { %>
+              <table class="table table-hover table-bordered">
+                  <thead class="thead-light">
+                      <tr>
+                          <th>Coupon Code</th>
+                          <th>Discount</th>
+                          <th>Expiry Date</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <% availableCoupons.forEach(coupon => { %>
+                          <tr>
+                              <td><strong><%= coupon.code %></strong></td>
+                              <td><span class="badge badge-success"><%= coupon.discount %>% Off</span></td>
+
+                              <td><%= new Date(coupon.expiryDate).toLocaleDateString() %></td>
+                              
+                          </tr>
+                      <% }) %>
+                  </tbody>
+              </table>
+          <% } else { %>
+              <p class="text-center text-danger">No coupons available at the moment.</p>
+          <% } %>
+      </div>
+      <div class="card-footer text-center">
+          <small class="text-muted">Check back later for more offers!</small>
+      </div>
+  </div>
+</div>
+
+
+
+<!-- Footer -->
+<footer class="text-center py-4" style="background-color: #3B8B57;">
+  <div class="containe">
+      <div class="row">
+          <div class="col-md-4 mb-3">
+              <h5 class="text-white">About Us</h5>
+              <p class="text-white">At Herba-Veda, we provide high-quality herbal products to enhance your wellness and vitality.</p>
+          </div>
+          <div class="col-md-4 mb-3">
+              <h5 class="text-white">Quick Links</h5>
+              <ul class="list-unstyled">
+                  <li><a href="/about" class="text-white">About</a></li>
+                  <li><a href="/products" class="text-white">Products</a></li>
+                  <li><a href="/contact" class="text-white">Contact Us</a></li>
+                  <li><a href="/faq" class="text-white">FAQ</a></li>
+              </ul>
+          </div>
+          <div class="col-md-4 mb-3">
+              <h5 class="text-white">Stay Connected</h5>
+              <form action="/subscribe" method="post" class="mb-2">
+                  <div class="input-group">
+                      <input type="email" class="form-control" placeholder="Enter your email" required>
+                      <div class="input-group-append">
+                          <button class="btn btn-primary" type="submit">Subscribe</button>
+                      </div>
+                  </div>
+              </form>
+              <div>
+                  <a href="#" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
+                  <a href="#" class="text-white me-2"><i class="fab fa-twitter"></i></a>
+                  <a href="#" class="text-white me-2"><i class="fab fa-instagram"></i></a>
+                  <a href="#" class="text-white me-2"><i class="fab fa-linkedin-in"></i></a>
+              </div>
+          </div>
+      </div>
+      <hr class="text-white">
+      <p class="mb-0 text-white">&copy; 2024 Herba-Veda. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- Optional JavaScript; choose one of the two! -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const quantityInputs = document.querySelectorAll('.cart-quantity');
+
+    quantityInputs.forEach(input => {
+        let previousQuantity = input.value; // Store the previous quantity
+
+        // Create a span for error message
+        const errorSpan = document.createElement('span');
+        errorSpan.style.color = 'red';
+        errorSpan.style.fontSize = '12px';
+        input.parentNode.appendChild(errorSpan);
+
+        input.addEventListener('input', function () {
+            const stock = parseInt(input.getAttribute('data-stock')); // Get the stock limit
+            let currentQuantity = parseInt(input.value);
+
+            // If the quantity exceeds stock, reset it to previous value
+            if (currentQuantity > stock) {
+                errorSpan.textContent = `Quantity cannot exceed ${stock}.`; // Show error message
+                input.value = previousQuantity; // Reset to the previous quantity
+            } else {
+                errorSpan.textContent = ''; // Clear error message
+                previousQuantity = currentQuantity; // Update the previous quantity
+            }
+        });
+    });
+});
+$(document).ready(function() {
+    $(".cart-quantity").on("change", function() {
+      var quantity = $(this).val();
+      var productId = $(this).closest('form').find('input[name="productId"]').val();
+
+      $.ajax({
+        url: "/cart/update",  // The server route to handle updating the cart
+        method: "POST",
+        data: {
+          productId: productId,
+          quantity: quantity,
+        },
+        success: function(response) {
+          if (response.success_msg) {
+            // Optionally, you can update the cart dynamically here
+            location.reload(); // Reload the page to reflect the updated cart (or update specific elements dynamically)
+          }
+        },
+        error: function(error) {
+          alert("Error updating cart.");
+        }
+      });
+    });
+  });
+
+
+
+</script>
+
+</body>
+</html>

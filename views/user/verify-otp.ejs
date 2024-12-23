@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> <!-- Bootstrap CDN -->
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light background color */
+        }
+        .otp-container {
+            max-width: 500px;
+            margin: 100px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-top: 15px;
+        }
+        #otp-timer {
+            text-align: center;
+            margin: 10px 0;
+        }
+    </style>
+ 
+
+
+</head>
+<body>
+    <div class="otp-container">
+        <h1>Verify OTP</h1>
+        <form action="/user/verify-otp" method="POST">
+            <div class="form-group">
+                <label for="otp">Enter OTP:</label>
+                <input type="text" class="form-control" name="otp" id="otp" required>
+                <input type="hidden" name="mobile" value="<%= mobile %>"> <!-- Pass mobile number if needed -->
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Verify OTP</button>
+        </form>
+
+        <div id="otp-timer">Time left: 5:00</div> <!-- Display timer here -->
+
+        <% if (error) { %>
+            <p class="error-message"><%= error %></p>
+        <% } %>
+
+        <button id="resend-otp" onclick="resendOtp()" class="btn btn-secondary btn-block" disabled>Resend OTP</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        let otpTimer;
+        let timeLeft = 60; // 1 minute in seconds
+    
+        function startTimer() {
+            const timerElement = document.getElementById("otp-timer");
+            otpTimer = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(otpTimer);
+                    timerElement.innerHTML = "Time is up!";
+                    document.getElementById("resend-otp").disabled = false; // Enable resend button
+                } else {
+                    const minutes = Math.floor(timeLeft / 60);
+                    const seconds = timeLeft % 60;
+                    timerElement.innerHTML = `Time left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                    timeLeft--;
+                }
+            }, 1000);
+        }
+    
+        function resendOtp() {
+            // Make an AJAX call to resend the OTP
+            fetch('/user/resend-otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: "<%= email %>" }) // Pass the email from the session
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('OTP resent to your email.');
+                    timeLeft = 60; // Reset timer to 1 minute
+                    startTimer(); // Restart timer
+                } else {
+                    alert('Failed to resend OTP. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while resending OTP.');
+            });
+        }
+    
+        window.onload = startTimer;
+    </script>
+</body>
+</html>

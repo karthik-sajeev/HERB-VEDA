@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= offer ? 'Edit Offer' : 'Create Offer' %></title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 800px;
+            margin-left: 320px;
+            margin-top: 80px;
+
+        }
+        .form-label {
+            font-weight: bold;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .btn-custom {
+            margin-top: 20px;
+            width: 100%;
+        }
+          body {
+            background-color: #1e1e2f;
+            color: #ddd;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            padding-top: 20px;
+            overflow-y: auto;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar h3 {
+            color: #ffffff;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .sidebar a {
+            padding: 15px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #ddd;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+            color: #fff;
+        }
+
+        .sidebar .active {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+
+        /* Header */
+        .header {
+            background-color: #2c2c3e;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 250px;
+            width: calc(100% - 250px);
+            z-index: 1;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .header .search-bar {
+            width: 300px;
+            position: relative;
+        }
+
+        .header .search-bar input {
+            width: 100%;
+            padding: 8px 35px;
+            border: none;
+            border-radius: 4px;
+            background-color: #1e1e2f;
+            color: #ddd;
+            font-size: 16px;
+        }
+
+        .header .search-bar i {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            color: #ddd;
+        }
+
+        .header .profile-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .header .profile-actions .profile-icon {
+            font-size: 24px;
+            margin-right: 20px;
+            color: #ddd;
+        }
+
+        .header .profile-actions .logout-btn {
+            color: #fff;
+            background-color: #d9534f;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .header .profile-actions .logout-btn:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+<body>
+        <!-- Sidebar -->
+   <!-- Sidebar -->
+   <div class="sidebar">
+    <h3>Herba Veda</h3>
+    <a href="/admin/dashboard" class="<%= activePage === 'dashboard' ? 'active' : '' %>"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+    <a href="/admin/sales/report" class="<%= activePage === 'salesReport' ? 'active' : '' %>"><i class="fas fa-chart-line"></i> Sales Report</a>
+    <a href="/admin/orders" class="<%= activePage === 'orders' ? 'active' : '' %>"><i class="fas fa-box"></i> Orders</a>
+    <a href="/admin/products" class="<%= activePage === 'products' ? 'active' : '' %>"><i class="fas fa-boxes"></i> Products</a>
+    <a href="/admin/users" class="<%= activePage === 'users' ? 'active' : '' %>"><i class="fas fa-users"></i> Users</a>
+    <a href="/admin/categories" class="<%= activePage === 'categories' ? 'active' : '' %>"><i class="fas fa-tags"></i> Categories</a>
+    <a href="/admin/brands" class="<%= activePage === 'brands' ? 'active' : '' %>"><i class="fas fa-tags"></i> Brands</a>
+    <a href="/admin/coupons" class="<%= activePage === 'coupons' ? 'active' : '' %>"><i class="fas fa-percentage"></i> Coupons</a>
+    <a href="#" class="<%= activePage === 'banners' ? 'active' : '' %>"><i class="fas fa-images"></i> Banners</a>
+    <a href="#" class="<%= activePage === 'payments' ? 'active' : '' %>"><i class="fas fa-money-bill"></i> Payments</a>
+    <a href="/admin/offers" class="<%= activePage === 'offers' ? 'active' : '' %>"><i class="fas fa-gift"></i> Offers</a>
+  </div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="profile-actions">
+            <i class="fas fa-user-circle profile-icon"></i>
+            <a href="/admin/login">
+                <button class="logout-btn">Logout</button>
+            </a>
+        </div>
+       
+    </div>
+    <div class="container">
+        <h1 class="text-center mb-4"><%= offer ? 'Edit Offer' : 'Create Offer' %></h1>
+
+        <!-- Offer Form -->
+        <form action="<%= offer ? '/admin/offers/update' : '/admin/offers/create' %>" method="POST">
+
+            <!-- Hidden ID Field for Edit -->
+            <input type="hidden" name="id" value="<%= offer ? offer._id : '' %>">
+
+            <!-- Offer Type -->
+            <div class="form-group">
+                <label for="type" class="form-label">Offer Type</label>
+                <select name="type" id="type" class="form-control" onchange="handleTypeChange()" required>
+                    <option value="product" <%= offer && offer.type === 'product' ? 'selected' : '' %>>Product</option>
+                    <option value="category" <%= offer && offer.type === 'category' ? 'selected' : '' %>>Category</option>
+                    <!-- <option value="referral" <%= offer && offer.type === 'referral' ? 'selected' : '' %>>Referral</option> -->
+                </select>
+            </div>
+
+            <!-- Title -->
+            <div class="form-group">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" name="title" id="title" class="form-control" value="<%= offer ? offer.title : '' %>" required>
+            </div>
+
+            <!-- Discount -->
+            <div class="form-group">
+                <label for="discount" class="form-label">Discount (%)</label>
+                <input type="number" name="discount" id="discount" class="form-control" value="<%= offer ? offer.discount : '' %>" required>
+            </div>
+
+          <!-- Start Date -->
+<div class="form-group">
+    <label for="startDate" class="form-label">Start Date</label>
+    <input 
+        type="date" 
+        name="startDate" 
+        id="startDate" 
+        class="form-control" 
+        value="<%= offer ? offer.startDate.toISOString().split('T')[0] : '' %>" 
+        required>
+</div>
+
+<!-- End Date -->
+<div class="form-group">
+    <label for="endDate" class="form-label">End Date</label>
+    <input 
+        type="date" 
+        name="endDate" 
+        id="endDate" 
+        class="form-control" 
+        value="<%= offer ? offer.endDate.toISOString().split('T')[0] : '' %>" 
+        required>
+</div>
+
+
+            <!-- Conditional Fields Based on Offer Type -->
+
+            <!-- Product Offer -->
+            <div id="productSection" <%= offer && offer.type !== 'product' ? 'style="display:none"' : '' %>>
+                <div class="form-group">
+                    <label for="product" class="form-label">Product</label>
+                    <select name="product" id="product" class="form-control" <%= offer && offer.type === 'product' ? 'required' : '' %>>
+                        <option value="">Select Product</option>
+                        <% products.forEach(product => { %>
+                            <option value="<%= product._id %>" <%= offer && offer.product && offer.product._id.toString() === product._id.toString() ? 'selected' : '' %>><%= product.name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Category Offer -->
+            <div id="categorySection" <%= offer && offer.type !== 'category' ? 'style="display:none"' : '' %>>
+                <div class="form-group">
+                    <label for="category" class="form-label">Category</label>
+                    <select name="category" id="category" class="form-control" <%= offer && offer.type === 'category' ? 'required' : '' %>>
+                        <option value="">Select Category</option>
+                        <% categories.forEach(category => { %>
+                            <option value="<%= category._id %>" <%= offer && offer.category && offer.category._id.toString() === category._id.toString() ? 'selected' : '' %>><%= category.name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Referral Offer -->
+            <div id="referralSection" <%= offer && offer.type !== 'referral' ? 'style="display:none"' : '' %>>
+                <div class="form-group">
+                    <label for="referralCode" class="form-label">Referral Code</label>
+                    <input type="text" name="referralCode" id="referralCode" class="form-control" value="<%= offer ? offer.referralCode : '' %>">
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary btn-custom">
+                <%= offer ? 'Update Offer' : 'Create Offer' %>
+            </button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- JavaScript to toggle sections based on selected offer type -->
+    <script>
+        function handleTypeChange() {
+            const type = document.getElementById('type').value;
+            document.getElementById('productSection').style.display = type === 'product' ? 'block' : 'none';
+            document.getElementById('categorySection').style.display = type === 'category' ? 'block' : 'none';
+            document.getElementById('referralSection').style.display = type === 'referral' ? 'block' : 'none';
+        }
+
+        // Initialize the form based on the selected offer type
+        handleTypeChange();
+
+
+
+        const today = new Date().toISOString().split('T')[0];
+
+// Get the input fields
+const startDateInput = document.getElementById('startDate');
+const endDateInput = document.getElementById('endDate');
+
+// Set the minimum date for the start date
+startDateInput.setAttribute('min', today);
+
+// Update the minimum date for the end date when the start date changes
+startDateInput.addEventListener('change', function () {
+    endDateInput.setAttribute('min', startDateInput.value);
+});
+
+// If an offer already exists, ensure the end date respects the start date
+if (startDateInput.value) {
+    endDateInput.setAttribute('min', startDateInput.value);
+}
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+
+        /* Custom Styles */
+        .sidebar {
+            height: 100vh;
+            padding-top: 20px;
+        }
+
+        .sidebar-heading {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .card {
+            border-radius: 10px;
+        }
+
+        .filter-section, .download-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filter-section h5, .download-section h5 {
+            margin-bottom: 15px;
+        }
+
+        .filter-section form {
+            align-items: center;
+        }
+        /* .row{
+          margin-left: 258px;
+        }
+     .form-inline{
+      width: 292px;
+     } */
+
+     .filter-section{
+      width: 300px;
+     }
+     .sidebar-sticky{
+      background-color: aliceblue;
+     }

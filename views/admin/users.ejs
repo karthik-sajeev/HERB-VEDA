@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - User Management</title>
+  <!-- Bootstrap CSS for styling -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <!-- Custom CSS for additional styling -->
+  <link rel="stylesheet" href="/css/usermanagement.css">
+  <style>
+    body {
+      background-color: #1e1e2f;
+      color: #ddd;
+      font-family: Arial, sans-serif;
+      margin: 0;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #111;
+      padding-top: 20px;
+      overflow-y: auto;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .sidebar h3 {
+      color: #ffffff;
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .sidebar a {
+      padding: 15px 20px;
+      text-decoration: none;
+      font-size: 18px;
+      color: #ddd;
+      display: block;
+      transition: 0.3s;
+    }
+
+    .sidebar a:hover {
+      background-color: #575757;
+      color: #fff;
+    }
+
+    .sidebar .active {
+      background-color: #007bff;
+      color: #ffffff;
+    }
+
+    /* Header */
+    .header {
+      background-color: #2c2c3e;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: fixed;
+      top: 0;
+      left: 250px;
+      width: calc(100% - 250px);
+      z-index: 1;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .header .search-bar {
+      width: 300px;
+      position: relative;
+    }
+
+    .header .search-bar input {
+      width: 100%;
+      padding: 8px 35px;
+      border: none;
+      border-radius: 4px;
+      background-color: #1e1e2f;
+      color: #ddd;
+      font-size: 16px;
+    }
+
+    .header .search-bar i {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+      color: #ddd;
+    }
+
+    .header .profile-actions {
+      display: flex;
+      align-items: center;
+    }
+
+    .header .profile-actions .profile-icon {
+      font-size: 24px;
+      margin-right: 20px;
+      color: #ddd;
+    }
+
+    .header .profile-actions .logout-btn {
+      color: #fff;
+      background-color: #d9534f;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+
+    .header .profile-actions .logout-btn:hover {
+      background-color: #c9302c;
+    }
+
+    /* Main Content */
+    .container {
+      margin-left: 232px;
+      margin-top: 80px;
+      width: 1025px;
+    }
+
+    .card {
+      background-color: #2c2c3e;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .card h1 {
+      color: #fff;
+    }
+
+    .search-input {
+      width: 250px;
+      margin-right: 10px;
+    }
+
+    .table th,
+    .table td {
+      color: #ddd;
+    }
+
+    .dropdown-menu {
+      width: 150px;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+
+    .btn-secondary {
+      background-color: #6c757d;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .btn-secondary:hover {
+      background-color: #5a6268;
+    }
+
+    .btn-outline-success,
+    .btn-outline-danger {
+      border-radius: 5px;
+    }
+
+    .table-responsive {
+      margin-top: 30px;
+    }
+    #button{
+      margin-right: 808px;
+    }
+    img{
+      border-radius: 50%;
+      margin-right: 11px;
+    }
+    .pagination{
+      margin-left: 221px;
+    
+    }
+    .page-link{
+      color: #ffffff;
+    background-color: #333333;
+    border: 1px solid #444444;
+    
+    }
+    .table-dark{
+     background-color: #151617; 
+    }
+    #useralign{
+      margin-left: 17px;
+      width: 952px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h3>Herba Veda</h3>
+    <a href="/admin/dashboard" class="<%= activePage === 'dashboard' ? 'active' : '' %>"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+    <a href="/admin/sales/report" class="<%= activePage === 'salesReport' ? 'active' : '' %>"><i class="fas fa-chart-line"></i> Sales Report</a>
+    <a href="/admin/orders" class="<%= activePage === 'orders' ? 'active' : '' %>"><i class="fas fa-box"></i> Orders</a>
+    <a href="/admin/products" class="<%= activePage === 'products' ? 'active' : '' %>"><i class="fas fa-boxes"></i> Products</a>
+    <a href="/admin/users" class="<%= activePage === 'users' ? 'active' : '' %>"><i class="fas fa-users"></i> Users</a>
+    <a href="/admin/categories" class="<%= activePage === 'categories' ? 'active' : '' %>"><i class="fas fa-tags"></i> Categories</a>
+    <a href="/admin/brands" class="<%= activePage === 'brands' ? 'active' : '' %>"><i class="fas fa-tags"></i> Brands</a>
+    <a href="/admin/coupons" class="<%= activePage === 'coupons' ? 'active' : '' %>"><i class="fas fa-percentage"></i> Coupons</a>
+    <a href="#" class="<%= activePage === 'banners' ? 'active' : '' %>"><i class="fas fa-images"></i> Banners</a>
+    <a href="#" class="<%= activePage === 'payments' ? 'active' : '' %>"><i class="fas fa-money-bill"></i> Payments</a>
+    <a href="/admin/offers" class="<%= activePage === 'offers' ? 'active' : '' %>"><i class="fas fa-gift"></i> Offers</a>
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="search-bar">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Search...">
+    </div>
+    <div class="profile-actions">
+      <i class="fas fa-user-circle profile-icon"></i>
+      <a href="/admin/login">
+          <button class="logout-btn">Logout</button>
+      </a>
+  </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="card p-4  text-white" id="useralign">
+      <h1 class="text-center mb-4">User Management</h1>
+  
+      <!-- Search Bar -->
+      <form action="/admin/users" method="GET" class="form-inline mb-4 justify-content-center">
+        <input type="text" class="form-control mr-2 search-input" name="search" placeholder="Search by Name or Email" value="<%= searchQuery %>">
+        <button type="submit" class="btn btn-primary btn-lg">Search</button>
+      </form>
+      
+    
+  
+      <!-- Sort Dropdown -->
+      <div class="dropdown mb-4 text-center">
+        <button onclick="toggleDropdown()" class="btn btn-outline-light dropdown-toggle" id="button">Sort By</button>
+        <div id="myDropdown" class="dropdown-menu bg-white text-white">
+          <a href="/admin/users?sort=name&order=<%= sortOrder === 'asc' ? 'desc' : 'asc' %>" class="dropdown-item">Name</a>
+          <a href="/admin/users?sort=mobile&order=<%= sortOrder === 'asc' ? 'desc' : 'asc' %>" class="dropdown-item">Mobile</a>
+          <a href="/admin/users?sort=email&order=<%= sortOrder === 'asc' ? 'desc' : 'asc' %>" class="dropdown-item">Email</a>
+          <a href="/admin/users?sort=joinedOn&order=<%= sortOrder === 'asc' ? 'desc' : 'asc' %>" class="dropdown-item">Joined On</a>
+        </div>
+      </div>
+  
+      <!-- User Table -->
+      <div class="table-responsive">
+        <table class="table table-dark table-striped table-hover text-center">
+          <thead class="thead-light">
+            <tr>
+              <th>Name</th>
+              <th>Mobile</th>
+              <th>Email</th>
+              <th>Joined On</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.forEach(user => { %>
+              <tr>
+                <td>
+                  <!-- User Photo and Name -->
+                  <div class="d-flex align-items-center justify-content-center">
+                   <img src="/images/user.png" width="40" height="40" >
+                    <%= user.name %>
+                  </div>
+                </td>
+                <td><%= user.mobile %></td>
+                <td><%= user.email %></td>
+                <td><%= new Date(user.joinedOn).toLocaleDateString("en-GB") %></td>
+
+                <td>
+                  <% if (user.isBlocked) { %>
+                    <form action="/admin/users/unblock/<%= user._id %>" method="POST">
+                      <button type="submit" class="btn btn-sm btn-outline-success">Unblock</button>
+                    </form>
+                  <% } else { %>
+                    <form action="/admin/users/block/<%= user._id %>" method="POST">
+                      <button type="submit" class="btn btn-sm btn-outline-danger">Block</button>
+                    </form>
+                  <% } %>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+    <!-- Pagination -->
+<div class="d-flex justify-content-center mt-4">
+  <nav>
+    <ul class="pagination ">
+      <% if (page > 1) { %>
+        <li class="page-item">
+          <a class="page-link" href="?page=<%= page - 1 %>">&laquo;</a>
+        </li>
+      <% } %>
+
+      <!-- Loop through all page numbers -->
+      <% for (let i = 1; i <= totalPages; i++) { %>
+        <li class="page-item <%= i === page ? 'active' : '' %>">
+          <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+        </li>
+      <% } %>
+
+      <% if (page < totalPages) { %>
+        <li class="page-item">
+          <a class="page-link" href="?page=<%= page + 1 %>">&raquo;</a>
+        </li>
+      <% } %>
+    </ul>
+  </nav>
+</div>
+
+
+  <!-- Bootstrap and FontAwesome JS -->
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+function toggleDropdown() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
+window.onclick = function(event) {
+    if (!event.target.matches('#button')) {
+        const dropdowns = document.getElementsByClassName("dropdown-menu");
+        for (let i = 0; i < dropdowns.length; i++) {
+            const openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+    }
+};
+
+  </script>
+</body>
+
+</html>

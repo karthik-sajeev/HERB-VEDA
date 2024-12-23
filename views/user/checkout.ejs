@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/public/style.css"> <!-- Link to your custom CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Page Container Styling */
+        .container {
+            max-width: 700px;
+            background: #f9f9f9;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Title Styling */
+        .text-center {
+            color: #333;
+            font-weight: bold;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Form Heading */
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            color: #495057;
+        }
+
+        /* Radio Button Customization */
+        .form-check-input:checked {
+            background-color: #4CAF50;
+            border-color: #4CAF50;
+        }
+
+        /* Button Customization */
+        .btn-primary {
+            background-color: #28a745;
+            border: none;
+            font-size: 1.1rem;
+        }
+
+        .btn-primary:hover {
+            background-color: #218838;
+        }
+
+        /* Modal Styling */
+        .modal-content {
+            border-radius: 10px;
+        }
+
+        /* Placeholder Styling for Input Fields */
+        input::placeholder {
+            font-style: italic;
+            color: #adb5bd;
+        }
+        .imagelogo{
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    margin-right: 4px;
+}
+.navbar-brand{
+    font-weight: 800;
+    color: #275110;
+}
+footer {
+    background-color: #ecf0f1;
+    color: #7f8c8d;
+}
+
+footer {
+    background-color: #d6e3d4; /* Light gray background */
+    color: #343a40; /* Dark text color */
+}
+
+footer h5 {
+    font-size: 1.25rem;
+    margin-bottom: 15px;
+    color: #ffffff; /* Bootstrap primary color */
+}
+
+footer p {
+    font-size: 0.9rem;
+}
+footer {
+    color: white; /* Applies to all text within the footer */
+}
+
+footer a {
+    color: white; /* Ensures links are white */
+}
+
+footer hr {
+    border-color: white; /* Sets the color of the horizontal rule */
+}
+
+footer .list-unstyled {
+    padding: 0;
+    list-style: none; /* Remove default list style */
+}
+
+footer .list-unstyled li {
+    margin-bottom: 10px; /* Space between links */
+}
+
+footer .list-unstyled a {
+    text-decoration: none; /* Remove underline */
+    color: #343a40; /* Dark text color */
+}
+
+footer .list-unstyled a:hover {
+    color: #007bff; /* Change color on hover */
+}
+
+footer .input-group {
+    max-width: 400px;
+    margin: 0 auto; /* Center the input group */
+}
+
+footer .btn-primary {
+    background-color: #007bff; /* Bootstrap primary color */
+    border-color: #007bff;
+}
+
+footer .btn-primary:hover {
+    background-color: #0056b3; /* Darker shade for hover */
+    border-color: #0056b3;
+}
+
+footer .fab {
+    font-size: 1.5rem; /* Larger icon size */
+    transition: color 0.3s;
+}
+
+footer .fab:hover {
+    color: #007bff; /* Change icon color on hover */
+}
+
+    </style>
+</head>
+<body>
+            <!-- Main Navbar -->
+            <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #B2D8B2;">
+                <img src="/images/download.png" alt="" class="imagelogo">
+                <a class="navbar-brand" href="#">Herba-Veda</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <form class="form-inline mx-auto" action="/user/products" method="GET">
+                        <input class="form-control mr-2" type="search" name="search" placeholder="Search" aria-label="Search" style="width: 467px">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                    
+                    
+                    
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/wishlist" title="Wishlist"><i class="fas fa-heart"></i> Wishlist</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/cart" title="Cart"><i class="fas fa-shopping-cart"></i> Cart</a>
+        
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-user"></i> Profile
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="profileDropdown"  style=" background-color: papayawhip">
+                                <a class="dropdown-item" href="/user/profile">Profile</a>
+                                <a class="dropdown-item" href="/api/user-orders">My Orders</a>
+                                <a class="dropdown-item" href="/api/wallet">wallet</a>
+                                <a class="dropdown-item" href="/logout">Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+          
+            <!-- Sub-header with navigation links -->
+            <nav class="navbar navbar-expand-lg navbar-light" style="background-color:  #FFFDD0;">
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">OFFERS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/home">HOME</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/user/products">SHOP</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CATEGORIES</a>
+                            <div class="dropdown-menu" aria-labelledby="categoriesDropdown"   style=" background-color: papayawhip">
+                                <% categories.forEach(category => { %>
+                                    <a class="dropdown-item" href="/category/<%= category.slug %>"><%= category.name %></a>
+                                <% }); %>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/contact">BRANDS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about">CONTACT</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">ABOUT US</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="container mt-5">
+                <div class="card shadow-lg p-4">
+                    <h1 class="text-center mb-4 text-primary">Checkout</h1>
+                      <!-- Display Flash Messages -->
+  <% if (errorMessage) { %>
+    <div class="alert alert-danger text-center" role="alert">
+      <%= errorMessage %>
+    </div>
+  <% } %>
+  <% if (successMessage) { %>
+    <div class="alert alert-success text-center" role="alert">
+      <%= successMessage %>
+    </div>
+  <% } %>
+            
+                    <!-- Cart Items Section -->
+                    <div class="cart-section">
+                        <h4>Your Cart</h4>
+                        <ul class="list-group mb-4">
+                            <% cartItems.forEach(item => { %>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div class="cart-item-details">
+                                        <h5 class="mb-1"><%= item.productId.name %></h5>
+                                        <p class="mb-1">Quantity: <%= item.quantity %></p>
+                                        <p class="mb-1">Price: ₹<%= item.price.toFixed(2) %></p>
+                                        <% if (item.offerApplied) { %>
+                                            <p class="text-muted mb-1">
+                                                Original Price: ₹<%= item.originalPrice.toFixed(2) %>, 
+                                                <span class="text-danger">Discounted Price: ₹<%= item.price.toFixed(2) %></span>
+                                            </p>
+                                        <% } %>
+                                    </div>
+                                    <!-- Total Price per Item -->
+                                    <div class="text-right">
+                                        <p class="mb-1"><strong>Total Price: ₹<%= (item.price * item.quantity).toFixed(2) %></strong></p>
+                                    </div>
+                                </li>
+                            <% }) %>
+                        </ul>
+                    </div>
+            <!-- Cart Totals -->
+<div class="text-right">
+    <h5 class="text-muted">
+        Delivery Charge: ₹<%= deliveryCharge.toFixed(2) %>
+      </h5>
+    
+    <h5 class="font-weight-bold">
+    
+        Total Amount(Include deliveryCharge): ₹<%= totalAmount.toFixed(2) %>
+    </h5>
+  
+    <% if (couponApplied) { %>
+      <h5 class="text-muted">
+        Discount Applied: ₹<%= discountAmount.toFixed(2) %>
+      </h5>
+    <% } %>
+  
+    <!-- Delivery Charge Section -->
+   
+    <!-- Final Total with Delivery Charge -->
+    <h4 class="font-weight-bold text-success">
+        Final Amount: ₹<%= totalFinalAmount.toFixed(2) %>
+      </h4>
+  </div>
+  
+                    <!-- Address Selection Section -->
+                    <form action="/checkout/place-order" method="POST" id="checkoutForm" class="mt-4">
+                        <h2 class="h5 text-info">Select Address</h2>
+                        <div class="mb-4">
+                            <% if (addresses.length > 0) { %>
+                                <% addresses.forEach(address => { %>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="radio" name="addressId" id="address-<%= address._id %>" value="<%= address._id %>" required>
+                                        <label class="form-check-label" for="address-<%= address._id %>">
+                                            <strong><%= address.name %></strong><br>
+                                            <small><%= address.street %>, <%= address.city %>, <%= address.state %>, <%= address.pincode %>, <%= address.country %></small>
+                                        </label>
+                                    </div>
+                                <% }) %>
+                            <% } else { %>
+                                <p class="text-danger">No addresses found. Please add an address to your account.</p>
+                            <% } %>
+                        </div>
+            
+                        <!-- Add New Address Button -->
+                        <button type="button" class="btn btn-outline-info mb-4" data-toggle="modal" data-target="#addAddressModal">
+                            <i class="fas fa-plus"></i> Add New Address
+                        </button>
+            
+                       <!-- Payment Method Selection Section -->
+<h2 class="h5 text-info">Select Payment Method</h2>
+<div class="mb-4">
+    <div class="form-check">
+        <!-- Check if final amount is greater than 1000 and disable COD option -->
+        <% if (finalAmount > 1000) { %>
+            <input class="form-check-input" type="radio" name="paymentMethod" id="payment-cod" value="Cash on Delivery" disabled>
+            <label class="form-check-label text-danger" for="payment-cod">Cash on Delivery (minimum order should be 1000)</label>
+        <% } else { %>
+            <input class="form-check-input" type="radio" name="paymentMethod" id="payment-cod" value="Cash on Delivery" required>
+            <label class="form-check-label" for="payment-cod">Cash on Delivery</label>
+        <% } %>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="paymentMethod" id="payment-credit" value="Credit Card" required>
+        <label class="form-check-label" for="payment-credit">Credit Card</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="paymentMethod" id="payment-debit" value="Debit Card" required>
+        <label class="form-check-label" for="payment-debit">Debit Card</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="paymentMethod" id="payment-wallet" value="Wallet" required>
+        <label class="form-check-label" for="payment-wallet">
+            Wallet (Balance: ₹<%= walletBalance.toFixed(2) %>)
+        </label>
+    </div>
+    <!-- Razorpay Payment Option -->
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="paymentMethod" id="payment-razorpay" value="Razorpay" required>
+        <label class="form-check-label" for="payment-razorpay">Razorpay</label>
+    </div>
+</div>
+
+<!-- Wallet Payment Validation -->
+<div id="wallet-insufficient-balance" class="alert alert-danger d-none">
+    <p>Insufficient wallet balance. Please select another payment method or add funds to your wallet.</p>
+</div>
+
+<!-- Razorpay Button (hidden by default) -->
+<div id="razorpay-button-container" class="mb-4" style="display:none;">
+    <button type="button" id="razorpay-payment-btn" class="btn btn-primary btn-lg btn-block">
+        Pay with Razorpay
+    </button>
+</div>
+
+<!-- Place Order Button -->
+<input type="hidden" name="totalAmount" value="<%= totalAmount %>">
+<input type="hidden" name="discountedAmount" value="<%= discountedAmount %>">
+<button type="submit" id="placeOrderBtn" class="btn btn-success btn-lg btn-block">Place Order</button>
+
+                    </form>
+                </div>
+            
+                <!-- Modal for Adding Address -->
+                <div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addAddressModalLabel">Add New Address</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/checkout/add-address" method="POST" id="addAddressForm">
+                                    <div class="form-group">
+                                        <label for="addressName">Name</label>
+                                        <input type="text" class="form-control" id="addressName" name="name" required>
+                                    </div>
+                                    <!-- Hidden fields for cart summary -->
+    <input type="hidden" name="totalAmount" value="<%= totalAmount %>">
+    <input type="hidden" name="discountedAmount" value="<%= discountedAmount %>">
+    
+                                    <div class="form-group">
+                                        <label for="addressStreet">Street</label>
+                                        <input type="text" class="form-control" id="addressStreet" name="street" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="addressCity">City</label>
+                                        <input type="text" class="form-control" id="addressCity" name="city" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="addressState">State</label>
+                                        <input type="text" class="form-control" id="addressState" name="state" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="addressPincode">Pincode</label>
+                                        <input type="text" class="form-control" id="addressPincode" name="pincode" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="addressCountry">Country</label>
+                                        <input type="text" class="form-control" id="addressCountry" name="country" required>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save Address</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+<!-- Footer -->
+<footer class="text-center py-4" style="background-color: #3B8B57;">
+    <div class="containe">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <h5 class="text-white">About Us</h5>
+                <p class="text-white">At Herba-Veda, we provide high-quality herbal products to enhance your wellness and vitality.</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h5 class="text-white">Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="/about" class="text-white">About</a></li>
+                    <li><a href="/products" class="text-white">Products</a></li>
+                    <li><a href="/contact" class="text-white">Contact Us</a></li>
+                    <li><a href="/faq" class="text-white">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h5 class="text-white">Stay Connected</h5>
+                <form action="/subscribe" method="post" class="mb-2">
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Enter your email" required>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">Subscribe</button>
+                        </div>
+                    </div>
+                </form>
+                <div>
+                    <a href="#" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white me-2"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-white me-2"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white me-2"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <hr class="text-white">
+        <p class="mb-0 text-white">&copy; 2024 Herba-Veda. All rights reserved.</p>
+    </div>
+</footer>
+            
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+            
+<script>// Show the Razorpay button when Razorpay payment option is selected
+$('input[name="paymentMethod"]').on('change', function() {
+    if ($(this).val() === 'Razorpay') {
+        $('#razorpay-button-container').show(); // Show the Razorpay button
+    } else {
+        $('#razorpay-button-container').hide(); // Hide the Razorpay button
+    }
+});
+
+// Razorpay button click handler
+$('#razorpay-payment-btn').on('click', function() {
+    const finalAmount = parseFloat('<%= discountedAmount %>'); // Final amount in INR
+    const finalAmountInPaise = Math.round(finalAmount * 100); // Convert to paise (smallest unit of INR)
+
+    // Send request to the server to create a Razorpay order
+    $.ajax({
+        url: '/payment/create-order', // Your server route for order creation
+        type: 'POST',
+        data: {
+            amount: finalAmountInPaise // Final amount in paise
+        },
+        success: function(response) {
+            var options = {
+                key: 'rzp_test_xsemsyi5woUHgD', // Your Razorpay key
+                amount: response.amount, // Order amount (in paise)
+                currency: 'INR', // Set currency to INR
+                name: 'Herba Veda',
+                description: `Payment for Order - ₹${finalAmount.toFixed(2)}`, // Include ₹ symbol in description
+                image: 'https://yourwebsite.com/logo.png',
+                order_id: response.id, // Order ID from the server
+                handler: function(paymentResponse) {
+                    // Handle payment success
+
+                    // Add the Razorpay payment ID to the form
+                    $('<input>').attr({
+                        type: 'hidden',
+                        name: 'razorpayPaymentId',
+                        value: paymentResponse.razorpay_payment_id
+                    }).appendTo('#checkoutForm');
+
+                    // Submit the form to complete the order
+                    $('#checkoutForm').submit();
+                },
+                prefill: {
+                    name: 'Customer Name',
+                    email: 'customer@example.com',
+                    contact: '7994158818'
+                },
+                notes: {
+                    address: 'Customer Address'
+                },
+                theme: {
+                    color: '#F37254'
+                },
+            };
+
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+        },
+        error: function() {
+            alert('An error occurred while creating the order. Please try again.');
+        }
+    });
+});
+
+
+
+document.getElementById("checkoutForm").addEventListener("submit", (e) => {
+    const walletBalance = parseFloat("<%= walletBalance %>"); // Backend-provided wallet balance
+    const finalAmount = parseFloat("<%= finalAmount %>");
+    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+    if (paymentMethod === "Wallet" && walletBalance < finalAmount) {
+        e.preventDefault(); // Prevent form submission
+        document.getElementById("wallet-insufficient-balance").classList.remove("d-none");
+        return false;
+    }
+});
+
+
+</script>
+
+</body>
+</html>

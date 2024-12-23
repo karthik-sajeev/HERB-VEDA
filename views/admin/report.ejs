@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Report</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #1e1e2f;
+            color: #ddd;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            padding-top: 20px;
+            overflow-y: auto;
+        }
+
+        .sidebar h3 {
+            color: #fff;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .sidebar a {
+            padding: 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #ddd;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        .sidebar .active {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        /* Header */
+        .header {
+            background-color: #2c2c3e;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 250px;
+            width: calc(100% - 250px);
+            z-index: 1;
+        }
+
+        .header .search-bar {
+            width: 300px;
+            position: relative;
+        }
+
+        .header .search-bar input {
+            width: 100%;
+            padding: 8px 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #1e1e2f;
+            color: #ddd;
+            padding-left: 30px;
+        }
+
+        .header .search-bar i {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            color: #ddd;
+        }
+
+        .header .profile-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .header .profile-actions .profile-icon {
+            margin-right: 20px;
+            color: #ddd;
+            font-size: 18px;
+        }
+
+        .header .profile-actions .logout-btn {
+            color: #ddd;
+            background-color: #d9534f;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .container {
+            background-color:#1e1e2f;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+            margin-left: 270px;
+            width: calc(100% - 270px);
+        }
+
+        h1, h2, h3 {
+            color: #007bff;
+            text-align: center;
+        }
+
+        .form-label {
+            font-weight: 600;
+        }
+
+        .btn {
+            border-radius: 5px;
+        }
+
+        .alert {
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        table {
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .table-bordered {
+            border-color: #ddd;
+        }
+
+        .table th, .table td {
+            padding: 12px;
+        }
+
+        .download-btns a {
+            margin-top: 10px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .download-btns a.btn-danger {
+            background-color: #dc3545;
+            color: white;
+            margin-right: 15px;
+        }
+
+        .download-btns a.btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .download-btns a:hover {
+            opacity: 0.9;
+        }
+        .pagination{
+      
+    margin-left: 358px;
+        }
+        #page{
+            margin-top: -61px;
+            margin-left: -46px;
+        }
+
+        /* Adjusting the margins for larger screens */
+        @media (min-width: 768px) {
+            .container {
+                margin-left: 270px; /* Sidebar space */
+                width: calc(100% - 270px); /* Ensure container fits after sidebar */
+            }
+        }
+
+        /* Responsiveness */
+        @media (max-width: 767px) {
+            .container {
+                margin-left: 0;
+                width: 100%;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+     <!-- Sidebar -->
+     <div class="sidebar">
+        <h3>Herba Veda</h3>
+        <a href="/admin/Dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="/admin/sales/report"><i class="fas fa-chart-line"></i> Sales Report</a>
+        <a href="/admin/orders"><i class="fas fa-box"></i> Orders</a>
+        <a href="/admin/products"><i class="fas fa-boxes"></i> Products</a>
+        <a href="/admin/Users"><i class="fas fa-users"></i> Users</a>
+        <a href="/admin/categories"><i class="fas fa-tags"></i> Categories</a>
+        <a href="/admin/brands"><i class="fas fa-tags"></i> Brands</a>
+        <a href="/admin/coupons"><i class="fas fa-percentage"></i> Coupons</a>
+        <a href="#"><i class="fas fa-images"></i> Banners</a>
+        <a href="#"><i class="fas fa-money-bill"></i> Payments</a>
+        <a href="/admin/offers"><i class="fas fa-gift"></i> Offers</a>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="profile-actions">
+            <i class="fas fa-user-circle profile-icon"></i>
+            <a href="/admin/login">
+                <button class="logout-btn">Logout</button>
+            </a>
+        </div>
+    </div>
+    <div class="container">
+        <h1>Sales Report</h1>
+        
+        <!-- Sales Report Form -->
+        <form action="/admin/sales/report" method="get">
+            <div class="row">
+                <!-- Start Date -->
+                <div class="col-md-4 mb-3">
+                    <label for="start" class="form-label">Start Date:</label>
+                    <input type="date" id="start" name="start" value="<%= start %>" class="form-control" required max="<%= new Date().toISOString().split('T')[0] %>" onchange="validateEndDate()" />
+                </div>
+                <!-- End Date -->
+                <div class="col-md-4 mb-3">
+                    <label for="end" class="form-label">End Date:</label>
+                    <input type="date" id="end" name="end" value="<%= end %>" class="form-control" required />
+                </div>
+                <!-- Order Status -->
+                <div class="col-md-4 mb-3">
+                    <label for="status" class="form-label">Order Status:</label>
+                    <select name="status" id="status" class="form-select">
+                        <option value="All" <%= status === 'All' ? 'selected' : '' %>>All</option>
+                        <option value="Pending" <%= status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                        <option value="Shipped" <%= status === 'Shipped' ? 'selected' : '' %>>Shipped</option>
+                        <option value="Delivered" <%= status === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+                        <option value="Cancelled" <%= status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+                        <option value="Returned" <%= status === 'Returned' ? 'selected' : '' %>>Returned</option>
+                    </select>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center mb-4">
+                <button type="submit" class="btn btn-primary">Generate Report</button>
+            </div>
+        </form>
+    
+        <!-- Display Report -->
+        <% if (report && report.items) { %>
+            <h2>Report Summary</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Total Sales:</strong> ₹<%= report.totalSales.toFixed(2) %></p>
+                    <p><strong>Total Quantity Sold: </strong><%= report.totalQuantity %></p>
+                    <p><strong>Overall Discount:</strong> ₹<%= report.overallDiscount.toFixed(2) %></p>
+                </div>
+            </div>
+    
+            <!-- Detailed Report Table -->
+            <h3>Order Details</h3>
+            <table class="table table-bordered text-white">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Total Amount</th>
+                        <th>Discount</th>
+                        <th>Final Amount</th>
+                        <th>Status</th>
+                        <th>Order Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% report.items.forEach(item => { %>
+                        <tr>
+                            <td><%= item.orderId %></td>
+                            <td><%= item.productName %></td>
+                            <td><%= item.quantity %></td>
+                            <td>₹<%= (item.totalAmount ? item.totalAmount.toFixed(2) : '0.00') %></td>
+                            <td>₹<%= (item.discount ? item.discount.toFixed(2) : '0.00') %></td>
+                            <td>₹<%= (item.finalAmount ? item.finalAmount.toFixed(2) : '0.00') %></td>
+                            <td><%= item.status %></td>
+                            <td><%= item.date %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <div class="alert alert-warning">
+                No sales data available for the selected dates.
+            </div>
+        <% } %>
+    
+        <!-- Download Buttons -->
+        <div class="download-btns d-flex justify-content-between">
+            <a href="/admin/sales/report?start=<%= start %>&end=<%= end %>&status=<%= status %>&download=pdf" class="btn btn-danger">Download PDF</a>
+            <a href="/admin/sales/report?start=<%= start %>&end=<%= end %>&status=<%= status %>&download=excel" class="btn btn-success">Download Excel</a>
+        </div>
+    </div>
+    
+    <!-- Pagination controls -->
+    <nav aria-label="Page navigation" id="page">
+        <ul class="pagination justify-content-center">
+            <li class="page-item <%= page <= 1 ? 'disabled' : '' %>">
+                <a class="page-link" href="?start=<%= start %>&end=<%= end %>&status=<%= status %>&page=<%= page - 1 %>&limit=<%= 10 %>" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+    
+            <% 
+            const startPage = Math.floor((page - 1) / 5) * 5 + 1;
+            const endPage = Math.min(startPage + 4, totalPages);
+            for (let i = startPage; i <= endPage; i++) { 
+            %>
+                <li class="page-item <%= (i === page) ? 'active' : '' %>">
+                    <a class="page-link" href="?start=<%= start %>&end=<%= end %>&status=<%= status %>&page=<%= i %>&limit=<%= 10 %>"><%= i %></a>
+                </li>
+            <% } %>
+    
+            <li class="page-item <%= page >= totalPages ? 'disabled' : '' %>">
+                <a class="page-link" href="?start=<%= start %>&end=<%= end %>&status=<%= status %>&page=<%= page + 1 %>&limit=<%= 10 %>" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Validate the end date when the start date changes
+        function validateEndDate() {
+            var startDate = document.getElementById('start').value;
+            var endDate = document.getElementById('end').value;
+    
+            // Set min end date to the start date
+            var startDateObj = new Date(startDate);
+            startDateObj.setDate(startDateObj.getDate() + 1); // Add 1 day to start date
+            var minEndDate = startDateObj.toISOString().split('T')[0];
+    
+            // Set max start date to today
+            var today = new Date().toISOString().split('T')[0];
+            document.getElementById('start').setAttribute('max', today);
+    
+            // Disable invalid end dates
+            var endDateInput = document.getElementById('end');
+            endDateInput.setAttribute('min', minEndDate);
+    
+            // If the selected end date is earlier than the new min end date, reset it
+            if (endDate < minEndDate) {
+                endDateInput.value = '';
+            }
+        }
+    
+        // Initialize validation when the page loads
+        window.onload = function() {
+            validateEndDate();
+        }
+    </script>
+    </body>
+    </html>
+    

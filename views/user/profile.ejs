@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
+    <style>
+        .card {
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+        .card-header {
+            font-weight: bold;
+        }
+        .modal-header {
+            border-bottom: none;
+        }
+        .btn-close {
+            border: none;
+            background: transparent;
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .imagelogo{
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    margin-right: 4px;
+}
+.navbar-brand{
+    font-weight: 800;
+    color: #275110;
+}
+
+    </style>
+</head>
+<body>
+
+      <!-- Main Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #B2D8B2;">
+        <img src="/images/download.png" alt="" class="imagelogo">
+        <a class="navbar-brand" href="/home">Herba-Veda</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <form class="form-inline mx-auto">
+                <input class="form-control mr-2" type="search" placeholder="Search" aria-label style="width: 467px">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/wishlist" title="Wishlist"><i class="fas fa-heart"></i> Wishlist</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cart" title="Cart"><i class="fas fa-shopping-cart"></i> Cart</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user"></i> Profile
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="profileDropdown"   style=" background-color: papayawhip">
+                        <a class="dropdown-item" href="/user/profile">Profile</a>
+                        <a class="dropdown-item" href="/api/user-orders">My Orders</a>
+                        <a class="dropdown-item" href="/api/wallet">wallet</a>
+                        <a class="dropdown-item" href="/logout">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Sub-header with navigation links -->
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color:  #FFFDD0;" >
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">OFFERS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/home">HOME</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/products">SHOP</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CATEGORIES</a>
+                    <div class="dropdown-menu" aria-labelledby="categoriesDropdown"  style=" background-color: papayawhip">
+                        <% categories.forEach(category => { %>
+                            <a class="dropdown-item" href="/category/<%= category.slug %>"><%= category.name %></a>
+                        <% }); %>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact">BRANDS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about">CONTACT</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/">ABOUT US</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container my-5">
+        <h1 class="text-center">User Profile</h1>
+
+        <!-- Edit Profile Section -->
+        <div class="card">
+            <div class="card-header">Edit Your Details</div>
+            <div class="card-body">
+                <form id="editProfileForm">
+                    <input type="hidden" name="userId" value="<%= user._id %>" />
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" name="name" value="<%= user.name %>" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" name="email" value="<%= user.email %>" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="mobile">Mobile:</label>
+                        <input type="text" class="form-control" name="mobile" value="<%= user.mobile %>" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Update Profile</button>
+                    <div id="successMessage" class="alert alert-success mt-3" style="display: none;"></div>
+                    <div id="errorMessage" class="alert alert-danger mt-3" style="display: none;"></div>
+                </form>
+            </div>
+        </div>
+
+      <!-- Address Section -->
+<!-- Address Section -->
+<div class="card">
+    <div class="card-header">Your Addresses</div>
+    <div class="card-body">
+        <ul id="addressList" class="list-group mb-4">
+            <% if (user.addresses && user.addresses.length > 0) { %>
+                <% user.addresses.forEach(address => { %>
+                    <li class="list-group-item d-flex justify-content-between align-items-center" id="address-<%= address._id %>">
+                        <div>
+                            <strong><%= address.name || "No Name" %>:</strong>
+                            <%= address.street || "No Street" %>,
+                            <%= address.city || "No City" %>,
+                            <%= address.state || "No State" %> -
+                            <%= address.pincode || "No Pincode" %>
+                            <%=address.country ||"No country"%>
+                        </div>
+                        <div>
+                            <a href="#" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editAddressModal"
+                               data-id="<%= address._id %>"
+                               data-name="<%= address.name %>"
+                               data-street="<%= address.street %>"
+                               data-city="<%= address.city %>"
+                               data-state="<%= address.state %>"
+                               data-pincode="<%= address.pincode %>"
+                               data-country="<%=address.country%>">Edit</a>
+                            <form action="/user/profile/address/<%= address._id %>/delete" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </div>
+                    </li>
+                <% }); %>
+            <% } else { %>
+                <li class="list-group-item">No addresses added yet.</li>
+            <% } %>
+        </ul>
+
+  <!-- Add Address Form -->
+<h3 class="h5">Add New Address</h3>
+<form id="addAddressForm" action="/profile/address" method="POST">
+    <input type="hidden" name="userId" value="<%= user._id %>" />
+    <div class="form-group">
+        <label for="name">Address Name:</label>
+        <input type="text" name="name" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="street">Street:</label>
+        <input type="text" name="street" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="city">City:</label>
+        <input type="text" name="city" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="state">State:</label>
+        <input type="text" name="state" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="pincode">Pincode:</label>
+        <input type="text" name="pincode" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="country">Country:</label>
+        <input type="text" name="country" class="form-control" required /> <!-- Add country field -->
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Add Address</button>
+    <div id="successMessage" class="alert alert-success mt-3" style="display: none;"></div>
+    <div id="errorMessage" class="alert alert-danger mt-3" style="display: none;"></div>
+</form>
+
+
+
+        <!-- Change Password Section -->
+        <div class="card">
+            <div class="card-header">Change Password</div>
+            <div class="card-body">
+                <form id="changePasswordForm">
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <input type="password" id="currentPassword" name="currentPassword" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input type="password" id="newPassword" name="newPassword" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm New Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-success mt-3">Change Password</button>
+                    <div id="passwordChangeMessage" class="alert mt-3" style="display: none;"></div>
+                </form>
+            </div>
+ 
+<!-- Edit Address Modal -->
+<div class="modal fade" id="editAddressModal" tabindex="-1" role="dialog" aria-labelledby="editAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editAddressModalLabel">Edit Address</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editAddressForm">
+                    <input type="hidden" name="addressId" id="addressId" />
+                    
+                    <!-- Address Fields -->
+                    <div class="form-group">
+                        <label for="editName">Name:</label>
+                        <input type="text" class="form-control" id="editName" name="name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="editStreet">Street:</label>
+                        <input type="text" class="form-control" id="editStreet" name="street" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="editCity">City:</label>
+                        <input type="text" class="form-control" id="editCity" name="city" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="editState">State:</label>
+                        <input type="text" class="form-control" id="editState" name="state" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="editPincode">Pincode:</label>
+                        <input type="text" class="form-control" id="editPincode" name="pincode" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="editCountry">country:</label>
+                        <input type="text" class="form-control" id="editCountry" name="Country" required />
+                    </div>
+                       
+                    <button type="submit" class="btn btn-primary mt-3">Update Address</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="wallet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // JavaScript for handling profile update
+        $('#editProfileForm').on('submit', async function (event) {
+            event.preventDefault(); // Prevent form submission
+
+            const formData = $(this).serialize(); // Serialize form data
+
+            try {
+                const response = await fetch('/user/profile/<%= user._id %>/edit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    $('#successMessage').text('Profile updated successfully!').show();
+                    $('#errorMessage').hide();
+                } else {
+                    const errorText = await response.text();
+                    $('#errorMessage').text('Error updating profile: ' + errorText).show();
+                    $('#successMessage').hide();
+                }
+            } catch (error) {
+                $('#errorMessage').text('Error: ' + error.message).show();
+                $('#successMessage').hide();
+            }
+        });
+
+   // jQuery to handle modal population
+  // JavaScript for handling modal and address updates
+
+// JavaScript for handling modal and address updates
+// When the edit address modal is shown
+$('#editAddressModal').on('show.bs.modal', function (event) {
+    const button = $(event.relatedTarget);
+    const addressId = button.data('id');
+    const name = button.data('name');
+    const street = button.data('street');
+    const city = button.data('city');
+    const state = button.data('state');
+    const pincode = button.data('pincode');
+    const country = button.data('country'); // Get country from button data
+
+    const modal = $(this);
+    modal.find('#addressId').val(addressId);
+    modal.find('#editName').val(name);
+    modal.find('#editStreet').val(street);
+    modal.find('#editCity').val(city);
+    modal.find('#editState').val(state);
+    modal.find('#editPincode').val(pincode);
+    modal.find('#editCountry').val(country); // Set country field in modal
+});
+
+// Handle the edit address form submission
+$('#editAddressForm').on('submit', async function (event) {
+    event.preventDefault();
+
+    const addressId = document.getElementById('addressId').value;
+    const name = document.getElementById('editName').value;
+    const street = document.getElementById('editStreet').value;
+    const city = document.getElementById('editCity').value;
+    const state = document.getElementById('editState').value;
+    const pincode = document.getElementById('editPincode').value;
+    const country = document.getElementById('editCountry').value; // Get country value
+
+    try {
+        const response = await fetch(`/user/profile/address/${addressId}/edit`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, street, city, state, pincode, country }), // Include country in body
+        });
+
+        if (response.ok) {
+            // Close the modal and refresh the address list without full page reload
+            $('#editAddressModal').modal('hide');
+            updateAddressList(); // Call to refresh the address list
+        } else {
+            throw new Error('Failed to update address');
+        }
+    } catch (error) {
+        console.error('Failed to update address:', error);
+        alert('Error updating address. Please try again.');
+    }
+});
+
+// Function to refresh address list
+async function updateAddressList() {
+    try {
+        const response = await fetch('/user/profile/address-list'); // Adjust this URL if needed
+        const updatedAddresses = await response.json(); // Get updated addresses as JSON
+
+        const addressListElement = $('#addressList');
+        addressListElement.empty(); // Clear the existing list
+
+        // Populate the list with updated addresses
+        updatedAddresses.forEach(address => {
+            addressListElement.append(`
+                <li class="list-group-item d-flex justify-content-between align-items-center" id="address-${address._id}">
+                    <div>
+                        <strong>${address.name}:</strong> ${address.street}, ${address.city}, ${address.state}, ${address.pincode}, ${address.country} <!-- Display country -->
+                    </div>
+                    <div>
+                        <a href="#" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editAddressModal"
+                           data-id="${address._id}" data-name="${address.name}" data-street="${address.street}" 
+                           data-city="${address.city}" data-state="${address.state}" data-pincode="${address.pincode}"
+                           data-country="${address.country}">Edit</a> <!-- Include country in data attributes -->
+                        <form action="/user/profile/address/${address._id}/delete" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </div>
+                </li>
+            `);
+        });
+    } catch (error) {
+        console.error('Failed to refresh address list:', error);
+    }
+}
+
+        // JavaScript for handling add address
+        $('#addAddressForm').on('submit', async function (event) {
+            event.preventDefault(); // Prevent form submission
+
+            const formData = $(this).serialize(); // Serialize form data
+
+            try {
+                const response = await fetch('/user/profile/address/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    $('#successMessage').text('Address added successfully!').show();
+                    $('#errorMessage').hide();
+                    location.reload(); // Reload the page to show the new address
+                } else {
+                    const errorText = await response.text();
+                    $('#errorMessage').text('Error adding address: ' + errorText).show();
+                    $('#successMessage').hide();
+                }
+            } catch (error) {
+                $('#errorMessage').text('Error: ' + error.message).show();
+                $('#successMessage').hide();
+            }
+        });
+
+
+document.querySelectorAll('.cancelOrderBtn').forEach(button => {
+        button.addEventListener('click', async function() {
+            const orderId = this.dataset.orderId;
+            const confirmCancel = confirm("Are you sure you want to cancel this order?");
+            if (confirmCancel) {
+                try {
+                    const response = await fetch(`/user/orders/${orderId}/cancel`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        // Show success message
+                        document.getElementById('successMessage').innerText = data.message;
+                        document.getElementById('successMessage').style.display = 'block';
+                        // Optionally, reload the orders table or remove the canceled order from the UI
+                        location.reload(); // Reload the page to update order status
+                    } else {
+                        // Show error message
+                        document.getElementById('errorMessage').innerText = data.message;
+                        document.getElementById('errorMessage').style.display = 'block';
+                    }
+                } catch (error) {
+                    console.error('Failed to cancel order:', error);
+                    document.getElementById('errorMessage').innerText = 'Failed to cancel order.';
+                    document.getElementById('errorMessage').style.display = 'block';
+                }
+            }
+        });
+    });
+//chang password
+
+
+       // Handle change password form submission
+    document.getElementById('changePasswordForm').addEventListener('submit', async function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const currentPassword = document.getElementById('currentPassword').value;
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        // Basic validation
+        if (newPassword !== confirmPassword) {
+            document.getElementById('passwordChangeMessage').innerText = 'New passwords do not match.';
+            document.getElementById('passwordChangeMessage').className = 'alert alert-danger';
+            document.getElementById('passwordChangeMessage').style.display = 'block';
+            return;
+        }
+
+        try {
+            const response = await fetch('/user/change-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ currentPassword, newPassword }),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                document.getElementById('passwordChangeMessage').innerText = data.message;
+                document.getElementById('passwordChangeMessage').className = 'alert alert-success';
+            } else {
+                document.getElementById('passwordChangeMessage').innerText = data.message;
+                document.getElementById('passwordChangeMessage').className = 'alert alert-danger';
+            }
+            document.getElementById('passwordChangeMessage').style.display = 'block';
+        } catch (error) {
+            console.error('Failed to change password:', error);
+            document.getElementById('passwordChangeMessage').innerText = 'Failed to change password. Please try again.';
+            document.getElementById('passwordChangeMessage').className = 'alert alert-danger';
+            document.getElementById('passwordChangeMessage').style.display = 'block';
+        }
+    });
+//     async function addMoney() {
+//     const email = document.getElementById("email").value; // Get email input value
+//     const amount = document.getElementById("amount").value; // Get amount input value
+//     const messageElement = document.getElementById("wallet-message"); // Flash message element
+
+//     const response = await fetch("/api/wallet/add-money", {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({ email, amount }),
+//     });
+
+//     const result = await response.json();
+
+//     if (response.ok) {
+//         // Update wallet balance
+//         const walletBalanceElement = document.getElementById("wallet-balance");
+//         if (walletBalanceElement) {
+//             walletBalanceElement.textContent = `Wallet Balance: $${result.walletBalance}`;
+//         }
+
+//         // Update wallet transaction history
+//         const walletHistoryElement = document.getElementById("wallet-history");
+//         if (walletHistoryElement) {
+//             walletHistoryElement.innerHTML = ""; // Clear existing history
+
+//             if (result.walletHistory && result.walletHistory.length === 0) {
+//                 walletHistoryElement.innerHTML = "<li>No wallet transactions found.</li>";
+//             } else {
+//                 result.walletHistory.forEach(transaction => {
+//                     const transactionElement = document.createElement("li");
+//                     transactionElement.textContent = `${new Date(transaction.createdAt).toLocaleString()} - ${transaction.description} - $${transaction.amount}`;
+//                     walletHistoryElement.appendChild(transactionElement);
+//                 });
+//             }
+//         }
+
+//         // Show success message
+//         messageElement.style.display = "block";
+//         messageElement.className = "alert alert-success";
+//         messageElement.textContent = "Money added successfully!";
+//     } else {
+//         // Show error message
+//         messageElement.style.display = "block";
+//         messageElement.className = "alert alert-danger";
+//         messageElement.textContent = result.error || "Failed to add money.";
+//     }
+
+//     // Auto-hide the message after 5 seconds
+//     setTimeout(() => {
+//         messageElement.style.display = "none";
+//     }, 5000);
+// }
+
+
+
+// const showWalletHistoryBtn = document.getElementById('show-wallet-history-btn');
+//         const walletHistoryContainer = document.getElementById('wallet-history-container');
+
+//         showWalletHistoryBtn.addEventListener('click', () => {
+//             if (walletHistoryContainer.style.display === 'none' || walletHistoryContainer.style.display === '') {
+//                 walletHistoryContainer.style.display = 'block';
+//                 showWalletHistoryBtn.textContent = 'Hide Wallet History';
+//             } else {
+//                 walletHistoryContainer.style.display = 'none';
+//                 showWalletHistoryBtn.textContent = 'Show Wallet History';
+//             }
+//         });
+
+
+    </script>
+    
+    
+</body>
+</html>
